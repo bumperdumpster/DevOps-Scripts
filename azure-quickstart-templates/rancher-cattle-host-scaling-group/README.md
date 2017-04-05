@@ -86,7 +86,7 @@ You will need the following information about the Key Vault for Deploy.
 1. Fill out the form which is driven by the parameters in the azuredeploy.json with the correct values.  If you have questions about what values to use reach out to folks in DevOps Group.
 1. Agree to the EULA by checking the box.
 1. Click the Purchase button. YOU WILL BE CHARGED, SO GET THE OKAY!!!
-1. After this add a new VPN Peering Connection ```rancherse-to-<vmssName>``` to https://portal.azure.com/#resource/subscriptions/6f7b13dc-a3ff-4e9c-878c-edcc79ecfb9b/resourceGroups/Rancher-RG/providers/Microsoft.Network/virtualNetworks/rancherservervnet/peerings 
+1. After this add a new VPN Peering Connection
 1. It takes about 2 minutes for new Hosts to show in Rancher.  They couldn't join until you setup the VPN Peering above.  Normally it takes about the same time to complete the manual step of VPN Peering as it does to ready the host for Rancher.
 1. You can now increase and descrease the Scale Set.  Max of 10 VMs! Or log into Rancher Server and see the Hosts Auto Join your Rancher Environment you specified (Takes a 2-3 minutes to complete provisioning)!
 
