@@ -334,9 +334,9 @@
                   "autoUpgradeMinorVersion": true,
                   "settings": {
                     "fileUris": [
-                      "https://raw.githubusercontent.com/SC-TechDev/DevOps-Scripts/azurescripts/azure-quickstart-templates/rancher-cattle-host-scaling-group/startup.sh",
-                      "https://raw.githubusercontent.com/SC-TechDev/DevOps-Scripts/azurescripts/azure-quickstart-templates/rancher-cattle-host-scaling-group/addfileshare.sh",
-                      "https://raw.githubusercontent.com/SC-TechDev/DevOps-Scripts/azurescripts/azure-quickstart-templates/scripts/rancherautojoin.py"
+                      "https://raw.githubusercontent.com/SC-TechDev/DevOps-Scripts/master/azure-quickstart-templates/rancher-cattle-host-scaling-group/startup.sh",
+                      "https://raw.githubusercontent.com/SC-TechDev/DevOps-Scripts/master/azure-quickstart-templates/rancher-cattle-host-scaling-group/addfileshare.sh",
+                      "https://raw.githubusercontent.com/SC-TechDev/DevOps-Scripts/master/azure-quickstart-templates/scripts/rancherautojoin.py"
                     ]
                   },
                   "protectedSettings" : {
