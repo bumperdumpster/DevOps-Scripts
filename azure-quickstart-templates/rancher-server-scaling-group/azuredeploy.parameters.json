@@ -98,7 +98,7 @@
       "properties": { 
         "mode": "incremental", 
         "templateLink": {
-          "uri": "https://raw.githubusercontent.com/SC-TechDev/DevOps-PDX/7b6b9f896e18c87f40acb2bc01c50a3fca0a1eec/Azure-Automation/azure-quickstart-templates/rancher-server-scaling-group/azuredeploy.json?token=AShGgYkGaI2CMD8no5Eb4ySVvE6l2N0Zks5Y2XkTwA%3D%3D",
+          "uri": "https://github.com/SC-TechDev/DevOps-Scripts/blob/05bfb3720c06b6c2224547da23803e6e8de17a1d/azure-quickstart-templates/rancher-server-scaling-group/azuredeploy.json",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {

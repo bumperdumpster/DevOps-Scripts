@@ -116,7 +116,7 @@
       "properties": { 
         "mode": "incremental", 
         "templateLink": {
-          "uri": "https://raw.githubusercontent.com/SC-TechDev/DevOps-PDX/297a19580b68379836121334cfe4f7662e801744/Azure-Automation/azure-quickstart-templates/rancher-cattle-host-scaling-group/azuredeploy.json?token=AShGgSMEKhSL7vgFzQrDpqHAMQoSEXGzks5YzEDswA%3D%3D",
+          "uri": "https://github.com/SC-TechDev/DevOps-Scripts/blob/05bfb3720c06b6c2224547da23803e6e8de17a1d/azure-quickstart-templates/rancher-cattle-host-scaling-group/azuredeploy.json",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {

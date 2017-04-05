@@ -90,6 +90,6 @@ You will need the following information about the Key Vault for Deploy.
 1. It takes about 2 minutes for new Hosts to show in Rancher.  They couldn't join until you setup the VPN Peering above.  Normally it takes about the same time to complete the manual step of VPN Peering as it does to ready the host for Rancher.
 1. You can now increase and descrease the Scale Set.  Max of 10 VMs! Or log into Rancher Server and see the Hosts Auto Join your Rancher Environment you specified (Takes a 2-3 minutes to complete provisioning)!
 
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FSC-TechDev%2FDevOps-PDX%2F5b89bc42ef21c54a1ac559f32978d1293612a2a1%2FAzure-Automation%2Fazure-quickstart-templates%2Francher-cattle-host-scaling-group%2Fazuredeploy.parameters.json%3Ftoken%AVRJh9mhG0YsMzwf168wG0QZf6Am8MIKks5Y3EJmwA%253D%253D" target="_blank">
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FSC-TechDev%2FDevOps-Scripts%2F05bfb3720c06b6c2224547da23803e6e8de17a1d%2Fazure-quickstart-templates%2Francher-cattle-host-scaling-group%2Fazuredeploy.parameters.json target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>

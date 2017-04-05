@@ -266,8 +266,8 @@
                   "autoUpgradeMinorVersion": true,
                   "settings": {
                     "fileUris": [
-                      "https://raw.githubusercontent.com/SC-TechDev/DevOps-PDX/259afda0f9d1a9bbee110493a34596daaeead25a/Azure-Automation/azure-quickstart-templates/rancher-server-scaling-group/startup.sh?token=AShGgR7lEEXNkIR_6SR--q4eaQ-X1N78ks5Y2XbhwA%3D%3D",
-                      "https://raw.githubusercontent.com/SC-TechDev/DevOps-PDX/259afda0f9d1a9bbee110493a34596daaeead25a/Azure-Automation/azure-quickstart-templates/rancher-server-scaling-group/rancherha.sh?token=AShGgflSRghuOr1CS6NJQxiYmpYVRI3mks5Y2XfCwA%3D%3D"
+                      "https://github.com/SC-TechDev/DevOps-Scripts/blob/05bfb3720c06b6c2224547da23803e6e8de17a1d/azure-quickstart-templates/rancher-server-scaling-group/startup.sh",
+                      "https://github.com/SC-TechDev/DevOps-Scripts/blob/05bfb3720c06b6c2224547da23803e6e8de17a1d/azure-quickstart-templates/rancher-server-scaling-group/rancherha.sh"
                     ]
                   },
                   "protectedSettings" : {
