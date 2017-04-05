@@ -19,7 +19,7 @@ The Azure Portal requires the following information, please have it ready before
 - Subscription - Subscription Name you would like to deploy the Resource Group to.
 - Resource Group - The name of an existing Resource Group or a new one. - rancher-cattle-environment-rg
 - Location - Azure Location of Resource Group - ex. West US
-- VM Sku - The size of the VMs - default is Standard_DS2_v2, 2 cpu, 7 GB ram, 124GB persistent disk for Docker
+- VM Sku - The size of the VMs - default is Standard_DS2_v2, 2 cpu, 7 GB ram, 128GB persistent disk for Docker
 - VMSS Name - Short-name for base naming of resource ex. ctlsupgrp would have resources like ctlsupgrpvnet
 - Subnet - Subnet for VNET ex. 10.?.0.0/16 Check Rancher Server's VNET/Peerings, there you will find all the peered vnets make sure you don't collide with an existing subnet.
 - Instance Count - The number of VMs, a good default is 2 for redundancy but you can go up to 10, you don't need to do this now you can start with 2 and scale up to 10 later with the click of button from Azure Portal.
@@ -86,7 +86,7 @@ You will need the following information about the Key Vault for Deploy.
 1. Fill out the form which is driven by the parameters in the azuredeploy.json with the correct values.  If you have questions about what values to use reach out to folks in DevOps Group.
 1. Agree to the EULA by checking the box.
 1. Click the Purchase button. YOU WILL BE CHARGED, SO GET THE OKAY!!!
-1. After this add a new VPN Peering Connection ```rancherse-to-<vmssName>``` to https://portal.azure.com/#resource/subscriptions/6f7b13dc-a3ff-4e9c-878c-edcc79ecfb9b/resourceGroups/Rancher-RG/providers/Microsoft.Network/virtualNetworks/rancherservervnet/peerings 
+1. After this add a new VPN Peering Connection
 1. It takes about 2 minutes for new Hosts to show in Rancher.  They couldn't join until you setup the VPN Peering above.  Normally it takes about the same time to complete the manual step of VPN Peering as it does to ready the host for Rancher.
 1. You can now increase and descrease the Scale Set.  Max of 10 VMs! Or log into Rancher Server and see the Hosts Auto Join your Rancher Environment you specified (Takes a 2-3 minutes to complete provisioning)!
 

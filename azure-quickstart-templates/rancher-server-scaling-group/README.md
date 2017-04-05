@@ -13,7 +13,7 @@ The Azure Portal requires the following information, please have it ready before
 - Subscription - Subscription Name you would like to deploy the Resource Group to.
 - Resource Group - The name of an existing Resource Group or a new one. - rancher-server-rg
 - Location - Azure Location of Resource Group - ex. West US
-- VM Sku - The size of the VMs - default is Standard_DS2_v2, 2 cpu, 7 GB ram, 124GB persistent disk for Docker
+- VM Sku - The size of the VMs - default is Standard_DS2_v2, 2 cpu, 7 GB ram, 128GB persistent disk for Docker
 - VMSS Name - Short-name for base naming of resource ex. ctlsupgrp would have resources like ctlsupgrpvnet
 - Subnet - Subnet for VNET ex. 10.?.0.0/16 Check Rancher Server's VNET/Peerings, there you will find all the peered vnets make sure you don't collide with an existing subnet.
 - Instance Count - The number of VMs, a good default is 3 for Rancher HA but you can go up to 10, you don't need to do this now you can start with 3 and scale up to 10 later with the click of button from Azure Portal.
