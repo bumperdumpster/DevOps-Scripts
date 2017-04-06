@@ -1,0 +1,284 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vmSku": {
+      "type": "string"
+    },
+    "vmssName": {
+      "type": "string"
+    },
+    "subnet": {
+      "type": "string"
+    },
+    "instanceCount": {
+        "type": "int"
+    },
+    "adminUsername": {
+      "type": "string"
+    },
+    "sshPublicKey": {
+      "type": "secureString"
+    },
+    "encryptionKey": {
+      "type": "secureString"
+    },
+    "dbHost": {
+      "type": "string"
+    },
+    "dbPort": {
+      "type": "string"
+    },
+    "dbName": {
+      "type": "string"
+    },
+    "dbUser": {
+      "type": "string"
+    },
+    "dbPass": {
+      "type": "secureString"
+    }
+  },
+  "variables": {
+    "location": "[resourceGroup().location]",
+    "vNet": {
+      "name": "[concat(parameters('vmssName'), 'vnet')]",
+      "addressSpacePrefix": "[parameters('subnet')]",
+      "subnetName": "default",
+      "subnetPrefix": "[parameters('subnet')]"
+    },
+    "publicIPAddressName": "[concat(parameters('vmssName'), 'pip')]",
+    "subnetName": "[concat(parameters('vmssName'), 'subnet')]",
+    "loadBalancerName": "[concat(parameters('vmssName'), 'lb')]",
+    "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
+    "lbID": "[resourceId('Microsoft.Network/loadBalancers',variables('loadBalancerName'))]",
+    "natPoolName": "[concat(parameters('vmssName'), 'natpool')]",
+    "bePoolName": "[concat(parameters('vmssName'), 'bepool')]",
+    "bePoolID": "[concat(variables('lbID'), '/backendAddressPools/', variables('bePoolName'))]",
+    "natStartPort": 50000,
+    "natEndPort": 50120,
+    "natBackendPort": 22,
+    "nicName": "[concat(parameters('vmssName'), 'nic')]",
+    "ipConfigName": "[concat(parameters('vmssName'), 'ipconfig')]",
+    "frontEndIPConfigID": "[concat(variables('lbID'),'/frontendIPConfigurations/loadBalancerFrontEnd')]",
+    "osType": {
+      "publisher": "Canonical",
+      "offer": "UbuntuServer",
+      "sku": "16.04-LTS",
+      "version": "latest"
+    },
+    "imageReference": "[variables('osType')]",
+    "computeApiVersion": "2016-04-30-preview",
+    "networkApiVersion": "2016-06-01",
+    "insightsApiVersion": "2015-04-01"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Network/virtualNetworks",
+      "name": "[variables('vNet').name]",
+      "location": "[variables('location')]",
+      "apiVersion": "[variables('networkApiVersion')]",
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[variables('vNet').addressSpacePrefix]"
+          ]
+        },
+        "subnets": [
+          {
+            "name": "[variables('vNet').subnetName]",
+            "properties": {
+              "addressPrefix": "[variables('vNet').addressSpacePrefix]"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.Network/publicIPAddresses",
+      "name": "[variables('publicIPAddressName')]",
+      "location": "[variables('location')]",
+      "apiVersion": "[variables('networkApiVersion')]",
+      "properties": {
+        "publicIPAllocationMethod": "Static",
+        "dnsSettings": {
+          "domainNameLabel": "[parameters('vmssName')]"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Network/loadBalancers",
+      "name": "[variables('loadBalancerName')]",
+      "location": "[variables('location')]",
+      "apiVersion": "[variables('networkApiVersion')]",
+      "dependsOn": [
+        "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]"
+      ],
+      "properties": {
+        "frontendIPConfigurations": [
+          {
+            "name": "LoadBalancerFrontEnd",
+            "properties": {
+              "publicIPAddress": {
+                "id": "[variables('publicIPAddressID')]"
+              }
+            }
+          }
+        ],
+        "backendAddressPools": [
+          {
+            "name": "[variables('bePoolName')]"
+          }
+        ],
+        "loadBalancingRules": [
+          {
+            "name": "lb-port-8080",
+            "properties" :{
+               "frontendIPConfiguration" :{
+                  "id": "[variables('frontEndIPConfigID')]"
+               },
+               "backendAddressPool": {
+                  "id": "[variables('bePoolID')]"
+               },
+               "protocol": "Tcp",
+               "frontendPort": 8080,
+               "backendPort": 8080,
+               "probe": {
+                  "id": "[concat(variables('lbID'), '/probes/probe-port-8080')]"
+               },
+               "enableFloatingIP": true,
+               "idleTimeoutInMinutes": 4,
+               "loadDistribution": "Default"
+            }
+         }
+      ],
+      "probes": [
+         {
+            "name":"probe-port-8080",
+            "properties":{
+               "protocol": "Tcp",
+               "port": 8080,
+               "intervalInSeconds": 5,
+               "numberOfProbes": 16
+            }
+         }
+      ],
+        "inboundNatPools": [
+          {
+            "name": "[variables('natPoolName')]",
+            "properties": {
+              "frontendIPConfiguration": {
+                "id": "[variables('frontEndIPConfigID')]"
+              },
+              "protocol": "tcp",
+              "frontendPortRangeStart": "[variables('natStartPort')]",
+              "frontendPortRangeEnd": "[variables('natEndPort')]",
+              "backendPort": "[variables('natBackendPort')]"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachineScaleSets",
+      "name": "[parameters('vmssName')]",
+      "location": "[variables('location')]",
+      "apiVersion": "[variables('computeApiVersion')]",
+      "dependsOn": [
+        "[concat('Microsoft.Network/loadBalancers/', variables('loadBalancerName'))]",
+        "[concat('Microsoft.Network/virtualNetworks/', variables('vNet').name)]"
+      ],
+      "sku": {
+        "name": "[parameters('vmSku')]",
+        "tier": "Standard",
+        "capacity": "[parameters('instanceCount')]"
+      },
+      "properties": {
+        "overprovision": "false",
+        "upgradePolicy": {
+          "mode": "Manual"
+        },
+        "virtualMachineProfile": {
+          "storageProfile": {
+            "dataDisks": [{
+              "lun": "1",
+              "createOption": "empty",
+              "diskSizeGB": "128"
+            }],
+            "osDisk": {
+              "createOption": "FromImage"
+            },
+            "imageReference": "[variables('imageReference')]"
+          },
+          "osProfile": {
+            "computerNamePrefix": "[parameters('vmssName')]",
+            "adminUsername": "[parameters('adminUsername')]",
+            "linuxConfiguration": {
+              "disablePasswordAuthentication": "true",
+              "ssh": {
+              "publicKeys": [
+                {
+                  "path": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]",
+                    "keyData": "[parameters('sshPublicKey')]"
+                }
+              ]
+              }          
+            }
+          },
+          "networkProfile": {
+            "networkInterfaceConfigurations": [
+              {
+                "name": "[variables('nicName')]",
+                "properties": {
+                  "primary": "true",
+                  "ipConfigurations": [
+                    {
+                      "name": "[variables('ipConfigName')]",
+                      "properties": {
+                        "subnet": {
+                          "id": "[concat('/subscriptions/', subscription().subscriptionId,'/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/virtualNetworks/', variables('vNet').name, '/subnets/', variables('vNet').subnetName)]"
+                        },
+                        "loadBalancerBackendAddressPools": [
+                          {
+                            "id": "[concat('/subscriptions/', subscription().subscriptionId,'/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/loadBalancers/', variables('loadBalancerName'), '/backendAddressPools/', variables('bePoolName'))]"
+                          }
+                        ],
+                        "loadBalancerInboundNatPools": [
+                          {
+                            "id": "[concat('/subscriptions/', subscription().subscriptionId,'/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/loadBalancers/', variables('loadBalancerName'), '/inboundNatPools/', variables('natPoolName'))]"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "extensionProfile": {
+            "extensions": [
+              {
+                "name": "lapextension",
+                "properties": {
+                  "publisher": "Microsoft.Azure.Extensions",
+                  "type": "CustomScript",
+                  "typeHandlerVersion": "2.0",
+                  "autoUpgradeMinorVersion": true,
+                  "settings": {
+                    "fileUris": [
+                      "https://raw.githubusercontent.com/SC-TechDev/DevOps-Scripts/master/azure-quickstart-templates/rancher-server-scaling-group/startup.sh",
+                      "https://raw.githubusercontent.com/SC-TechDev/DevOps-Scripts/master/azure-quickstart-templates/rancher-server-scaling-group/rancherha.sh"
+                    ]
+                  },
+                  "protectedSettings" : {
+                    "commandToExecute": "[concat('ENCRYPTION_KEY=',parameters('encryptionKey'),' DB_HOST=',parameters('dbHost'),' DB_PORT=',parameters('dbPort'),' DB_NAME=', parameters('dbName'),' DB_USER=', parameters('dbUser'), ' DB_PASS=', parameters('dbPass'), ' bash startup.sh')]"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,183 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vmSku": {
+      "type": "string",
+      "defaultValue": "Standard_DS2_v2",
+      "metadata": {
+        "description": "Size of Cattle Host VMs in the VM Scale Set."
+      }
+    },
+    "vmssName": {
+      "type": "string",
+      "metadata": {
+        "description": "String used as a base for naming resources (9 characters or less). A hash is prepended to this string for some resources, and resource-specific information is appended."
+      },
+      "maxLength": 9
+    },
+    "subnet": {
+      "type": "string",
+      "metadata": {
+        "description": "Cattle Host VM CIDR subnet"
+      }
+    },
+    "instanceCount": {
+      "type": "int",
+      "defaultValue": 2,
+      "metadata": {
+        "description": "Number of Cattle Host VMs. Max 10."
+      },
+      "maxValue": 10
+    },
+    "adminUsername": {
+      "type": "string",
+      "defaultValue": "rancher",
+      "metadata": {
+        "description": "Admin username on all Cattle Host VMs."
+      }
+    },
+    "rancherUrl": {
+      "type": "string",
+      "defaultValue": "https://rancher.steelcase.com",
+      "metadata": {
+        "description": "URI to Rancher ex. https://rancher.domain.com"
+      }
+    },
+    "rancherServerResourceGroupName": {
+      "type": "string",
+      "defaultValue": "Rancher-RG",
+      "metadata": {
+        "description": "Rancher Server Resource Group Name"
+      }
+    },
+    "rancherServerVnetName": {
+      "type": "string",
+      "defaultValue": "rancherservervnet",
+      "metadata": {
+        "description": "Rancher Server vNet Name"
+      }
+    },
+    "keyVaultSubscriptionId": {
+      "type": "secureString",
+      "metadata": {
+        "description": "Key Vault Subscription ID"
+      }
+    },
+    "keyVaultResourceGroupName": {
+      "type": "string",
+      "defaultValue": "Rancher-RG",
+      "metadata": {
+        "description": "Key Vault Resource Group Name"
+      }
+    },
+    "keyVaultName": {
+      "type": "string",
+      "defaultValue": "rancherKeyVault",
+      "metadata": {
+        "description": "Key Vault Name"
+      }
+    },
+    "keyVaultSshPublicKeySecretName": {
+      "type": "string",
+      "defaultValue": "RancherSSHPublicKey",
+      "metadata": {
+        "description": "Secret Name for Rancher API Access Key"
+      }
+    },
+    "keyVaultRancherServerSubscriptionIDSecretName": {
+      "type": "string",
+      "defaultValue": "RancherServerSubscriptionID",
+      "metadata": {
+        "description": "Secret Name for Rancher API Access Key"
+      }
+    },
+    "rancherEnvironment": {
+      "type": "string",
+      "defaultValue": "Support",
+      "allowedValues": [
+        "Dev",
+        "Production",
+        "Staging",
+        "Support",
+        "Build"
+      ]
+    }
+  },
+  "variables": {
+    "keyVaultRancherApiAccessKeySecretName": "[concat('Cattle',parameters('rancherEnvironment'),'AccessKey')]",
+    "keyVaultRancherApiSecretKeySecretName": "[concat('Cattle',parameters('rancherEnvironment'),'SecretKey')]"
+  },
+  "resources": [
+    { 
+      "apiVersion": "2015-01-01", 
+      "name": "linkedTemplate", 
+      "type": "Microsoft.Resources/deployments", 
+      "properties": { 
+        "mode": "incremental", 
+        "templateLink": {
+          "uri": "https://raw.githubusercontent.com/SC-TechDev/DevOps-Scripts/master/azure-quickstart-templates/rancher-cattle-host-scaling-group/azuredeploy.json",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "vmSku": {
+            "value": "[parameters('vmSku')]"
+          },
+          "vmssName": {
+            "value": "[parameters('vmssName')]"
+          },
+          "subnet": {
+            "value": "[parameters('subnet')]"
+          },
+          "instanceCount": {
+            "value": "[parameters('instanceCount')]"
+          },
+          "adminUsername": {
+            "value": "[parameters('adminUsername')]"
+          },
+          "rancherUrl": {
+            "value": "[parameters('rancherUrl')]"
+          },
+          "rancherServerResourceGroupName": {
+            "value": "[parameters('rancherServerResourceGroupName')]"
+          },
+          "rancherServerVnetName": {
+            "value": "[parameters('rancherServerVnetName')]"
+          },
+          "sshPublicKey": {
+            "reference": {
+              "keyVault": {
+                "id": "[concat('/subscriptions/',parameters('keyVaultSubscriptionId'),'/resourceGroups/',parameters('keyVaultResourceGroupName'),'/providers/Microsoft.KeyVault/vaults/',parameters('keyVaultName'))]"
+              },
+              "secretName": "[parameters('keyVaultSshPublicKeySecretName')]"
+            }
+          },
+          "rancherServerSubscriptionId": {
+            "reference": {
+              "keyVault": {
+                "id": "[concat('/subscriptions/',parameters('keyVaultSubscriptionId'),'/resourceGroups/',parameters('keyVaultResourceGroupName'),'/providers/Microsoft.KeyVault/vaults/',parameters('keyVaultName'))]"
+              },
+              "secretName": "[parameters('keyVaultRancherServerSubscriptionIDSecretName')]"
+            }
+          },
+          "rancherApiAccessKey": {
+            "reference": {
+              "keyVault": {
+                "id": "[concat('/subscriptions/',parameters('keyVaultSubscriptionId'),'/resourceGroups/',parameters('keyVaultResourceGroupName'),'/providers/Microsoft.KeyVault/vaults/',parameters('keyVaultName'))]"
+              },
+              "secretName": "[variables('keyVaultRancherApiAccessKeySecretName')]"
+            }
+          },
+          "rancherApiSecretKey": {
+            "reference": {
+              "keyVault": {
+                "id": "[concat('/subscriptions/',parameters('keyVaultSubscriptionId'),'/resourceGroups/',parameters('keyVaultResourceGroupName'),'/providers/Microsoft.KeyVault/vaults/',parameters('keyVaultName'))]"
+              },
+              "secretName": "[variables('keyVaultRancherApiSecretKeySecretName')]"
+            }
+          }  
+        }
+      }
+    }
+  ]
+}
