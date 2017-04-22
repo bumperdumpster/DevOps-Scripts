@@ -8,8 +8,20 @@
     "vmssName": {
       "type": "string"
     },
-    "subnet": {
+    "vNetName": {
       "type": "string"
+    },
+    "vNetsubnetName": {
+      "type": "string"
+    },
+    "loadBalancerName": {
+      "type": "string"
+    },
+    "natPoolName": {
+    	"type": "string"
+    },
+    "bePoolName": {
+    	"type": "string"
     },
     "instanceCount": {
         "type": "int"
@@ -41,26 +53,8 @@
   },
   "variables": {
     "location": "[resourceGroup().location]",
-    "vNet": {
-      "name": "[concat(parameters('vmssName'), 'vnet')]",
-      "addressSpacePrefix": "[parameters('subnet')]",
-      "subnetName": "default",
-      "subnetPrefix": "[parameters('subnet')]"
-    },
-    "publicIPAddressName": "[concat(parameters('vmssName'), 'pip')]",
-    "subnetName": "[concat(parameters('vmssName'), 'subnet')]",
-    "loadBalancerName": "[concat(parameters('vmssName'), 'lb')]",
-    "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
-    "lbID": "[resourceId('Microsoft.Network/loadBalancers',variables('loadBalancerName'))]",
-    "natPoolName": "[concat(parameters('vmssName'), 'natpool')]",
-    "bePoolName": "[concat(parameters('vmssName'), 'bepool')]",
-    "bePoolID": "[concat(variables('lbID'), '/backendAddressPools/', variables('bePoolName'))]",
-    "natStartPort": 50000,
-    "natEndPort": 50120,
-    "natBackendPort": 22,
     "nicName": "[concat(parameters('vmssName'), 'nic')]",
     "ipConfigName": "[concat(parameters('vmssName'), 'ipconfig')]",
-    "frontEndIPConfigID": "[concat(variables('lbID'),'/frontendIPConfigurations/loadBalancerFrontEnd')]",
     "osType": {
       "publisher": "Canonical",
       "offer": "UbuntuServer",
@@ -74,120 +68,10 @@
   },
   "resources": [
     {
-      "type": "Microsoft.Network/virtualNetworks",
-      "name": "[variables('vNet').name]",
-      "location": "[variables('location')]",
-      "apiVersion": "[variables('networkApiVersion')]",
-      "properties": {
-        "addressSpace": {
-          "addressPrefixes": [
-            "[variables('vNet').addressSpacePrefix]"
-          ]
-        },
-        "subnets": [
-          {
-            "name": "[variables('vNet').subnetName]",
-            "properties": {
-              "addressPrefix": "[variables('vNet').addressSpacePrefix]"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "type": "Microsoft.Network/publicIPAddresses",
-      "name": "[variables('publicIPAddressName')]",
-      "location": "[variables('location')]",
-      "apiVersion": "[variables('networkApiVersion')]",
-      "properties": {
-        "publicIPAllocationMethod": "Static",
-        "dnsSettings": {
-          "domainNameLabel": "[parameters('vmssName')]"
-        }
-      }
-    },
-    {
-      "type": "Microsoft.Network/loadBalancers",
-      "name": "[variables('loadBalancerName')]",
-      "location": "[variables('location')]",
-      "apiVersion": "[variables('networkApiVersion')]",
-      "dependsOn": [
-        "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]"
-      ],
-      "properties": {
-        "frontendIPConfigurations": [
-          {
-            "name": "LoadBalancerFrontEnd",
-            "properties": {
-              "publicIPAddress": {
-                "id": "[variables('publicIPAddressID')]"
-              }
-            }
-          }
-        ],
-        "backendAddressPools": [
-          {
-            "name": "[variables('bePoolName')]"
-          }
-        ],
-        "loadBalancingRules": [
-          {
-            "name": "lb-port-8080",
-            "properties" :{
-               "frontendIPConfiguration" :{
-                  "id": "[variables('frontEndIPConfigID')]"
-               },
-               "backendAddressPool": {
-                  "id": "[variables('bePoolID')]"
-               },
-               "protocol": "Tcp",
-               "frontendPort": 8080,
-               "backendPort": 8080,
-               "probe": {
-                  "id": "[concat(variables('lbID'), '/probes/probe-port-8080')]"
-               },
-               "enableFloatingIP": true,
-               "idleTimeoutInMinutes": 4,
-               "loadDistribution": "Default"
-            }
-         }
-      ],
-      "probes": [
-         {
-            "name":"probe-port-8080",
-            "properties":{
-               "protocol": "Tcp",
-               "port": 8080,
-               "intervalInSeconds": 5,
-               "numberOfProbes": 16
-            }
-         }
-      ],
-        "inboundNatPools": [
-          {
-            "name": "[variables('natPoolName')]",
-            "properties": {
-              "frontendIPConfiguration": {
-                "id": "[variables('frontEndIPConfigID')]"
-              },
-              "protocol": "tcp",
-              "frontendPortRangeStart": "[variables('natStartPort')]",
-              "frontendPortRangeEnd": "[variables('natEndPort')]",
-              "backendPort": "[variables('natBackendPort')]"
-            }
-          }
-        ]
-      }
-    },
-    {
       "type": "Microsoft.Compute/virtualMachineScaleSets",
       "name": "[parameters('vmssName')]",
       "location": "[variables('location')]",
       "apiVersion": "[variables('computeApiVersion')]",
-      "dependsOn": [
-        "[concat('Microsoft.Network/loadBalancers/', variables('loadBalancerName'))]",
-        "[concat('Microsoft.Network/virtualNetworks/', variables('vNet').name)]"
-      ],
       "sku": {
         "name": "[parameters('vmSku')]",
         "tier": "Standard",
@@ -236,16 +120,16 @@
                       "name": "[variables('ipConfigName')]",
                       "properties": {
                         "subnet": {
-                          "id": "[concat('/subscriptions/', subscription().subscriptionId,'/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/virtualNetworks/', variables('vNet').name, '/subnets/', variables('vNet').subnetName)]"
+                          "id": "[concat('/subscriptions/', subscription().subscriptionId,'/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/virtualNetworks/', parameters('vNetName'), '/subnets/', variables('vNetsubnetName'))]"
                         },
                         "loadBalancerBackendAddressPools": [
                           {
-                            "id": "[concat('/subscriptions/', subscription().subscriptionId,'/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/loadBalancers/', variables('loadBalancerName'), '/backendAddressPools/', variables('bePoolName'))]"
+                            "id": "[concat('/subscriptions/', subscription().subscriptionId,'/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/loadBalancers/', parameters('loadBalancerName'), '/backendAddressPools/', parameters('bePoolName'))]"
                           }
                         ],
                         "loadBalancerInboundNatPools": [
                           {
-                            "id": "[concat('/subscriptions/', subscription().subscriptionId,'/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/loadBalancers/', variables('loadBalancerName'), '/inboundNatPools/', variables('natPoolName'))]"
+                            "id": "[concat('/subscriptions/', subscription().subscriptionId,'/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/loadBalancers/', parameters('loadBalancerName'), '/inboundNatPools/', parameters('natPoolName'))]"
                           }
                         ]
                       }

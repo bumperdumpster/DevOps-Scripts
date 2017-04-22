@@ -45,6 +45,6 @@ RancherServerEncryptionKey, RancherServerDbPassword (names must be exact)
 1. Click the Purchase button. YOU WILL BE CHARGED, SO GET THE OKAY!!!
 1. You can now increase and descrease the Scale Set.
 
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FSC-TechDev%2FDevOps-Scripts%2F05bfb3720c06b6c2224547da23803e6e8de17a1d%2Fazure-quickstart-templates%2Francher-server-scaling-group%2Fazuredeploy.parameters.json" target="_blank">
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FSC-TechDev%2FDevOps-Scripts%2Ffinalbranch%2Fazure-quickstart-templates%2Francher-server-scaling-group-externallbvnet%2Fazuredeploy.parameters.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>

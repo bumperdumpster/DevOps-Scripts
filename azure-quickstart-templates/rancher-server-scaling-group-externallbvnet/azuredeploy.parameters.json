@@ -16,10 +16,34 @@
       },
       "maxLength": 9
     },
-    "subnet": {
+    "vNetName": {
       "type": "string",
       "metadata": {
-        "description": "Rancher Server VM CIDR subnet"
+        "description": "Virtual Network Name"
+      }
+    },
+    "vNetsubnetName": {
+      "type": "string",
+      "metadata": {
+        "description": "Rancher Server VM CIDR subnet name"
+      }
+    },
+    "loadBalancerName": {
+      "type": "string",
+      "metadata": {
+        "description": "loadbalancer name for servers to connect"
+      }
+    },    
+    "natPoolName": {
+      "type": "string",
+      "metadata": {
+        "description": "nat pool name of loadbalancer"
+      }
+    },
+    "bePoolName": {
+      "type": "string",
+      "metadata": {
+        "description": "backend pool name of the loadbalancer"
       }
     },
     "instanceCount": {
@@ -108,8 +132,20 @@
           "vmssName": {
             "value": "[parameters('vmssName')]"
           },
-          "subnet": {
-            "value": "[parameters('subnet')]"
+          "vNetName": {
+            "value": "[parameters('vNetName')]"
+          },
+          "vNetsubnetName": {
+            "value": "[parameters('vNetsubnetName')]"
+          },
+          "loadBalancerName": {
+            "value": "[parameters('loadBalancerName')]"
+          },
+          "bePoolName": {
+            "value": "[parameters('bePoolName')]"
+          },
+          "natPoolName": {
+            "value": "[parameters('natPoolName')]"
           },
           "instanceCount": {
             "value": "[parameters('instanceCount')]"
