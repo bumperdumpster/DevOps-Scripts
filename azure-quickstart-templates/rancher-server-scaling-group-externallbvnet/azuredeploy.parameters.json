@@ -122,7 +122,7 @@
       "properties": { 
         "mode": "incremental", 
         "templateLink": {
-          "uri": "https://raw.githubusercontent.com/SC-TechDev/DevOps-Scripts/master/azure-quickstart-templates/rancher-server-scaling-group/azuredeploy.json",
+          "uri": "https://raw.githubusercontent.com/SC-TechDev/DevOps-Scripts/master/azure-quickstart-templates/rancher-server-scaling-group-externallbvnet/azuredeploy.json",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {

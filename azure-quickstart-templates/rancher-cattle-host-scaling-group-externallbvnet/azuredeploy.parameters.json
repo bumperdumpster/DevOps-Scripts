@@ -140,7 +140,7 @@
       "properties": { 
         "mode": "incremental", 
         "templateLink": {
-          "uri": "https://raw.githubusercontent.com/SC-TechDev/DevOps-Scripts/finalbranch/azure-quickstart-templates/rancher-cattle-host-scaling-group-externallbvnet/azuredeploy.json",
+          "uri": "https://raw.githubusercontent.com/SC-TechDev/DevOps-Scripts/master/azure-quickstart-templates/rancher-cattle-host-scaling-group-externallbvnet/azuredeploy.json",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {

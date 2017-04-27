@@ -150,8 +150,8 @@
                   "autoUpgradeMinorVersion": true,
                   "settings": {
                     "fileUris": [
-                      "https://raw.githubusercontent.com/SC-TechDev/DevOps-Scripts/master/azure-quickstart-templates/rancher-server-scaling-group/startup.sh",
-                      "https://raw.githubusercontent.com/SC-TechDev/DevOps-Scripts/master/azure-quickstart-templates/rancher-server-scaling-group/rancherha.sh"
+                      "https://raw.githubusercontent.com/SC-TechDev/DevOps-Scripts/master/azure-quickstart-templates/rancher-server-scaling-group-externallbvnet/startup.sh",
+                      "https://raw.githubusercontent.com/SC-TechDev/DevOps-Scripts/master/azure-quickstart-templates/rancher-server-scaling-group-externallbvnet/rancherha.sh"
                     ]
                   },
                   "protectedSettings" : {
