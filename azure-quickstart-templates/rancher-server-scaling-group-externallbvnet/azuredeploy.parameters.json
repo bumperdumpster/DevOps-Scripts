@@ -1,0 +1,196 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vmSku": {
+      "type": "string",
+      "defaultValue": "Standard_DS2_v2",
+      "metadata": {
+        "description": "Size of Rancher Server VMs in the VM Scale Set."
+      }
+    },
+    "vmssName": {
+      "type": "string",
+      "metadata": {
+        "description": "String used as a base for naming resources (9 characters or less). A hash is prepended to this string for some resources, and resource-specific information is appended."
+      },
+      "maxLength": 9
+    },
+    "vNetName": {
+      "type": "string",
+      "metadata": {
+        "description": "Virtual Network Name"
+      }
+    },
+    "vNetsubnetName": {
+      "type": "string",
+      "metadata": {
+        "description": "Rancher Server VM CIDR subnet name"
+      }
+    },
+    "loadBalancerName": {
+      "type": "string",
+      "metadata": {
+        "description": "loadbalancer name for servers to connect"
+      }
+    },    
+    "natPoolName": {
+      "type": "string",
+      "metadata": {
+        "description": "nat pool name of loadbalancer"
+      }
+    },
+    "bePoolName": {
+      "type": "string",
+      "metadata": {
+        "description": "backend pool name of the loadbalancer"
+      }
+    },
+    "instanceCount": {
+      "type": "int",
+      "defaultValue": 3,
+      "metadata": {
+        "description": "Number of Rancher Server VMs."
+      },
+      "maxValue": 10
+    },
+    "adminUsername": {
+      "type": "string",
+      "defaultValue": "rancher",
+      "metadata": {
+        "description": "Admin username on all Rancher Server VMs."
+      }
+    },
+    "dbHost": {
+      "type": "string",
+      "metadata": {
+        "description": "Hostname or IP for Cattle DB Host"
+      }
+    },
+    "dbPort": {
+      "type": "string",
+      "metadata": {
+        "description": "Cattle DB Host Port"
+      }
+    },
+    "dbName": {
+      "type": "string",
+      "defaultValue": "cattle",
+      "metadata": {
+        "description": "Cattle DB Name"
+      }
+    },
+    "dbUser": {
+      "type": "string",
+      "metadata": {
+        "description": "Cattle DB User"
+      }
+    },
+    "keyVaultSubscriptionId": {
+      "type": "secureString",
+      "metadata": {
+        "description": "Key Vault Subscription ID"
+      }
+    },
+    "keyVaultResourceGroupName": {
+      "type": "string",
+      "defaultValue": "Rancher-RG",
+      "metadata": {
+        "description": "Key Vault Resource Group Name"
+      }
+    },
+    "keyVaultName": {
+      "type": "string",
+      "defaultValue": "rancherKeyVault",
+      "metadata": {
+        "description": "Key Vault Name"
+      }
+    },
+    "keyVaultSshPublicKeySecretName": {
+      "type": "string",
+      "defaultValue": "RancherSSHPublicKey",
+      "metadata": {
+        "description": "Secret Name for Rancher API Access Key"
+      }
+    }
+  },
+  "resources": [
+    { 
+      "apiVersion": "2015-01-01", 
+      "name": "linkedTemplate", 
+      "type": "Microsoft.Resources/deployments", 
+      "properties": { 
+        "mode": "incremental", 
+        "templateLink": {
+          "uri": "https://raw.githubusercontent.com/SC-TechDev/DevOps-Scripts/master/azure-quickstart-templates/rancher-server-scaling-group-externallbvnet/azuredeploy.json",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "vmSku": {
+            "value": "[parameters('vmSku')]"
+          },
+          "vmssName": {
+            "value": "[parameters('vmssName')]"
+          },
+          "vNetName": {
+            "value": "[parameters('vNetName')]"
+          },
+          "vNetsubnetName": {
+            "value": "[parameters('vNetsubnetName')]"
+          },
+          "loadBalancerName": {
+            "value": "[parameters('loadBalancerName')]"
+          },
+          "bePoolName": {
+            "value": "[parameters('bePoolName')]"
+          },
+          "natPoolName": {
+            "value": "[parameters('natPoolName')]"
+          },
+          "instanceCount": {
+            "value": "[parameters('instanceCount')]"
+          },
+          "adminUsername": {
+            "value": "[parameters('adminUsername')]"
+          },
+          "dbHost": {
+            "value": "[parameters('dbHost')]"
+          },
+          "dbPort": {
+            "value": "[parameters('dbPort')]"
+          },
+          "dbName": {
+            "value": "[parameters('dbName')]"
+          },
+          "dbUser": {
+            "value": "[parameters('dbUser')]"
+          },
+          "sshPublicKey": {
+            "reference": {
+              "keyVault": {
+                "id": "[concat('/subscriptions/',parameters('keyVaultSubscriptionId'),'/resourceGroups/',parameters('keyVaultResourceGroupName'),'/providers/Microsoft.KeyVault/vaults/',parameters('keyVaultName'))]"
+              },
+              "secretName": "[parameters('keyVaultSshPublicKeySecretName')]"
+            }
+          },
+          "encryptionKey": {
+            "reference": {
+              "keyVault": {
+                "id": "[concat('/subscriptions/',parameters('keyVaultSubscriptionId'),'/resourceGroups/',parameters('keyVaultResourceGroupName'),'/providers/Microsoft.KeyVault/vaults/',parameters('keyVaultName'))]"
+              },
+              "secretName": "RancherServerEncryptionKey"
+            }
+          },
+          "dbPass": {
+            "reference": {
+              "keyVault": {
+                "id": "[concat('/subscriptions/',parameters('keyVaultSubscriptionId'),'/resourceGroups/',parameters('keyVaultResourceGroupName'),'/providers/Microsoft.KeyVault/vaults/',parameters('keyVaultName'))]"
+              },
+              "secretName": "RancherServerDbPassword"
+            }
+          } 
+        }
+      }
+    }
+  ]
+}
