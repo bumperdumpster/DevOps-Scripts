@@ -23,6 +23,7 @@ The Azure Portal requires the following information, please have it ready before
 - Instance Count - The number of VMs, a good default is 3 for Rancher HA but you can go up to 10, you don't need to do this now you can start with 3 and scale up to 10 later with the click of button from Azure Portal.
 - Admin Username - Username for the VM instance.
 - SSH Public Key (keyvault) - Public Key for the Admin Username to SSH to the box.  By default SSH is behind nat and is typically port 50000-50020. Check the Resource Group's Load Balancer / Inbound NAT rules in Azure to determine correct IP.
+- Docker Version - Docker Version to insall.
 
 ## Generating/storing Key Vault keys required for deployment
 
