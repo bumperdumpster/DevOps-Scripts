@@ -1,0 +1,153 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vmSku": {
+      "type": "string",
+      "defaultValue": "Standard_DS1_v2",
+      "metadata": {
+        "description": "Size of Docker Server VMs in the VM Scale Set."
+      }
+    },
+    "vmssName": {
+      "type": "string",
+      "metadata": {
+        "description": "String used as a base for naming resources (9 characters or less). A hash is prepended to this string for some resources, and resource-specific information is appended."
+      },
+      "maxLength": 9
+    },
+    "vNetName": {
+      "type": "string",
+      "metadata": {
+        "description": "Virtual Network Name"
+      }
+    },
+    "vNetsubnetName": {
+      "type": "string",
+      "metadata": {
+        "description": "VM CIDR Subnet Name"
+      }
+    },
+    "loadBalancerName": {
+      "type": "string",
+      "metadata": {
+        "description": "loadbalancer name for servers to connect"
+      }
+    },    
+    "natPoolName": {
+      "type": "string",
+      "metadata": {
+        "description": "nat pool name of loadbalancer"
+      }
+    },
+    "bePoolName": {
+      "type": "string",
+      "metadata": {
+        "description": "backend pool name of the loadbalancer"
+      }
+    },
+    "instanceCount": {
+      "type": "int",
+      "defaultValue": 1,
+      "metadata": {
+        "description": "Number of Docker Server VMs."
+      },
+      "maxValue": 10
+    },
+    "adminUsername": {
+      "type": "string",
+      "defaultValue": "admin",
+      "metadata": {
+        "description": "Admin username on all Rancher Server VMs."
+      }
+    },
+    "keyVaultSubscriptionId": {
+      "type": "secureString",
+      "metadata": {
+        "description": "Key Vault Subscription ID"
+      }
+    },
+    "keyVaultResourceGroupName": {
+      "type": "string",
+      "defaultValue": "wpa-production-wus-rsg",
+      "metadata": {
+        "description": "Key Vault Resource Group Name"
+      }
+    },
+    "keyVaultName": {
+      "type": "string",
+      "defaultValue": "WPA-Production",
+      "metadata": {
+        "description": "Key Vault Name"
+      }
+    },
+    "keyVaultSshPublicKeySecretName": {
+      "type": "string",
+      "defaultValue": "DockerSSHPublicKey",
+      "metadata": {
+        "description": "SSH Public Key"
+      }
+    },
+    "dockerVersion": {
+      "type": "string",
+      "defaultValue": "1.12.6",
+      "metadata": {
+        "description": "Docker Version to Install"
+      }
+    }
+  },
+  "resources": [
+    { 
+      "apiVersion": "2015-01-01", 
+      "name": "linkedTemplate", 
+      "type": "Microsoft.Resources/deployments", 
+      "properties": { 
+        "mode": "incremental", 
+        "templateLink": {
+          "uri": "https://raw.githubusercontent.com/SC-TechDev/DevOps-Scripts/master/azure-quickstart-templates/docker-scaling-group-externallbvnet/azuredeploy.json",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "vmSku": {
+            "value": "[parameters('vmSku')]"
+          },
+          "vmssName": {
+            "value": "[parameters('vmssName')]"
+          },
+          "vNetName": {
+            "value": "[parameters('vNetName')]"
+          },
+          "vNetsubnetName": {
+            "value": "[parameters('vNetsubnetName')]"
+          },
+          "loadBalancerName": {
+            "value": "[parameters('loadBalancerName')]"
+          },
+          "bePoolName": {
+            "value": "[parameters('bePoolName')]"
+          },
+          "natPoolName": {
+            "value": "[parameters('natPoolName')]"
+          },
+          "instanceCount": {
+            "value": "[parameters('instanceCount')]"
+          },
+          "adminUsername": {
+            "value": "[parameters('adminUsername')]"
+          },
+          "sshPublicKey": {
+            "reference": {
+              "keyVault": {
+                "id": "[concat('/subscriptions/',parameters('keyVaultSubscriptionId'),'/resourceGroups/',parameters('keyVaultResourceGroupName'),'/providers/Microsoft.KeyVault/vaults/',parameters('keyVaultName'))]"
+              },
+              "secretName": "[parameters('keyVaultSshPublicKeySecretName')]"
+            }
+          },
+          "dockerVersion": {
+            "value": "[parameters('dockerVersion')]"
+          }
+        }
+      }
+    }
+  ]
+}
