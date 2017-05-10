@@ -11,7 +11,7 @@
     "vNetName": {
       "type": "string"
     },
-    "vNetsubnetName": {
+    "vNetSubnetName": {
       "type": "string"
     },
     "loadBalancerName": {
@@ -126,7 +126,7 @@
                       "name": "[variables('ipConfigName')]",
                       "properties": {
                         "subnet": {
-                          "id": "[concat('/subscriptions/', subscription().subscriptionId,'/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/virtualNetworks/', parameters('vNetName'), '/subnets/', variables('vNetsubnetName'))]"
+                          "id": "[concat('/subscriptions/', subscription().subscriptionId,'/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/virtualNetworks/', parameters('vNetName'), '/subnets/', parameters('vNetSubnetName'))]"
                         },
                         "loadBalancerBackendAddressPools": [
                           {

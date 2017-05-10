@@ -22,7 +22,7 @@
         "description": "Virtual Network Name"
       }
     },
-    "vNetsubnetName": {
+    "vNetSubnetName": {
       "type": "string",
       "metadata": {
         "description": "Rancher Server VM CIDR subnet name"
@@ -149,7 +149,7 @@
           "vNetName": {
             "value": "[parameters('vNetName')]"
           },
-          "vNetsubnetName": {
+          "vNetSubnetName": {
             "value": "[parameters('vNetsubnetName')]"
           },
           "loadBalancerName": {
