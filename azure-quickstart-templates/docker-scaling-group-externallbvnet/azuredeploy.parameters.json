@@ -12,9 +12,9 @@
     "vmssName": {
       "type": "string",
       "metadata": {
-        "description": "String used as a base for naming resources (9 characters or less). A hash is prepended to this string for some resources, and resource-specific information is appended."
+        "description": "String used as a base for naming resources. A hash is prepended to this string for some resources, and resource-specific information is appended."
       },
-      "maxLength": 9
+      "maxLength": 20
     },
     "vNetName": {
       "type": "string",
@@ -26,24 +26,6 @@
       "type": "string",
       "metadata": {
         "description": "VM CIDR Subnet Name"
-      }
-    },
-    "loadBalancerName": {
-      "type": "string",
-      "metadata": {
-        "description": "loadbalancer name for servers to connect"
-      }
-    },    
-    "natPoolName": {
-      "type": "string",
-      "metadata": {
-        "description": "nat pool name of loadbalancer"
-      }
-    },
-    "bePoolName": {
-      "type": "string",
-      "metadata": {
-        "description": "backend pool name of the loadbalancer"
       }
     },
     "instanceCount": {
