@@ -1,7 +1,3 @@
-# Set Docker variables
-
-export DOCKER_VERSION=1.12.6
-
 # Update Ubuntu
 
 apt-get update

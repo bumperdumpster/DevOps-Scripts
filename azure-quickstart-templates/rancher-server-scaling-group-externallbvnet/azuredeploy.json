@@ -11,7 +11,7 @@
     "vNetName": {
       "type": "string"
     },
-    "vNetsubnetName": {
+    "vNetSubnetName": {
       "type": "string"
     },
     "loadBalancerName": {
@@ -24,7 +24,13 @@
     	"type": "string"
     },
     "instanceCount": {
-        "type": "int"
+      "type": "int"
+    },
+    "dockerVersion": {
+      "type": "string"
+    },
+    "rancherVersion": {
+      "type": "string"
     },
     "adminUsername": {
       "type": "string"
@@ -120,7 +126,7 @@
                       "name": "[variables('ipConfigName')]",
                       "properties": {
                         "subnet": {
-                          "id": "[concat('/subscriptions/', subscription().subscriptionId,'/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/virtualNetworks/', parameters('vNetName'), '/subnets/', variables('vNetsubnetName'))]"
+                          "id": "[concat('/subscriptions/', subscription().subscriptionId,'/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/virtualNetworks/', parameters('vNetName'), '/subnets/', parameters('vNetSubnetName'))]"
                         },
                         "loadBalancerBackendAddressPools": [
                           {
@@ -155,7 +161,7 @@
                     ]
                   },
                   "protectedSettings" : {
-                    "commandToExecute": "[concat('ENCRYPTION_KEY=',parameters('encryptionKey'),' DB_HOST=',parameters('dbHost'),' DB_PORT=',parameters('dbPort'),' DB_NAME=', parameters('dbName'),' DB_USER=', parameters('dbUser'), ' DB_PASS=', parameters('dbPass'), ' bash startup.sh')]"
+                    "commandToExecute": "[concat('DOCKER_VERSION=',parameters('dockerVersion'), ' RANCHER_VERSION=',parameters('rancherVersion'),' DB_HOST=',parameters('dbHost'),' DB_PORT=',parameters('dbPort'),' DB_NAME=', parameters('dbName'),' DB_USER=', parameters('dbUser'), ' DB_PASS=', parameters('dbPass'), ' bash startup.sh')]"
                   }
                 }
               }

@@ -4,21 +4,8 @@ umask 077
 
 IMAGE=$1
 if [ "$IMAGE" = "" ]; then
-    IMAGE=rancher/enterprise:v1.5.3
+    IMAGE=rancher/enterprise:v$RANCHER_VERSION
 fi
-
-mkdir -p /var/lib/rancher/etc/server
-mkdir -p /var/lib/rancher/etc/ssl
-mkdir -p /var/lib/rancher/bin
-
-echo Creating /var/lib/rancher/etc/server/encryption.key
-if [ -e /var/lib/rancher/etc/server/encryption.key ]; then
-    mv /var/lib/rancher/etc/server/encryption.key /var/lib/rancher/etc/server/encryption.key.`date '+%s'`
-fi
-cat > /var/lib/rancher/etc/server/encryption.key << EOF
-$ENCRYPTION_KEY
-EOF
-
 
 echo Creating /var/lib/rancher/bin/rancher-ha-start.sh
 cat > /var/lib/rancher/bin/rancher-ha-start.sh << "EOF"
@@ -32,7 +19,7 @@ if [ "$IMAGE" = "" ]; then
 fi
 
 docker rm -fv rancher-ha >/dev/null 2>&1 || true
-ID=`docker run --restart=unless-stopped -p 8080:8080 -p 9345:9345 -d --name rancher-ha $IMAGE --db-host $DB_HOST --db-port $DB_PORT --db-user $DB_USER --db-pass "$DB_PASS" --db-name $DB_NAME --advertise-address $(hostname -i)`
+ID=`docker run -d --restart=unless-stopped -p 8080:8080 -p 9345:9345 --name rancher-ha $IMAGE --db-host $DB_HOST --db-port $DB_PORT --db-user $DB_USER --db-pass "$DB_PASS" --db-name $DB_NAME --advertise-address $(hostname -i)`
 
 echo Started container rancher-ha $ID
 echo Run the below to see the logs

@@ -22,7 +22,7 @@
         "description": "Virtual Network Name"
       }
     },
-    "vNetsubnetName": {
+    "vNetSubnetName": {
       "type": "string",
       "metadata": {
         "description": "Rancher Server VM CIDR subnet name"
@@ -53,6 +53,20 @@
         "description": "Number of Rancher Server VMs."
       },
       "maxValue": 10
+    },
+    "dockerVersion": {
+      "type": "string",
+      "defaultValue": "1.12.6",
+      "metadata": {
+        "description": "Docker Version to Install"
+      }
+    },
+    "rancherVersion": {
+      "type": "string",
+      "defaultValue": "1.5.3",
+      "metadata": {
+        "description": "Rancher Version to Install"
+      }
     },
     "adminUsername": {
       "type": "string",
@@ -135,8 +149,8 @@
           "vNetName": {
             "value": "[parameters('vNetName')]"
           },
-          "vNetsubnetName": {
-            "value": "[parameters('vNetsubnetName')]"
+          "vNetSubnetName": {
+            "value": "[parameters('vNetSubnetName')]"
           },
           "loadBalancerName": {
             "value": "[parameters('loadBalancerName')]"
@@ -152,6 +166,12 @@
           },
           "adminUsername": {
             "value": "[parameters('adminUsername')]"
+          },
+          "dockerVersion": {
+            "value": "[parameters('dockerVersion)]"
+          },
+          "rancherVersion": {
+            "value": "[parameters('rancherVersion)]"
           },
           "dbHost": {
             "value": "[parameters('dbHost')]"
@@ -171,14 +191,6 @@
                 "id": "[concat('/subscriptions/',parameters('keyVaultSubscriptionId'),'/resourceGroups/',parameters('keyVaultResourceGroupName'),'/providers/Microsoft.KeyVault/vaults/',parameters('keyVaultName'))]"
               },
               "secretName": "[parameters('keyVaultSshPublicKeySecretName')]"
-            }
-          },
-          "encryptionKey": {
-            "reference": {
-              "keyVault": {
-                "id": "[concat('/subscriptions/',parameters('keyVaultSubscriptionId'),'/resourceGroups/',parameters('keyVaultResourceGroupName'),'/providers/Microsoft.KeyVault/vaults/',parameters('keyVaultName'))]"
-              },
-              "secretName": "RancherServerEncryptionKey"
             }
           },
           "dbPass": {
