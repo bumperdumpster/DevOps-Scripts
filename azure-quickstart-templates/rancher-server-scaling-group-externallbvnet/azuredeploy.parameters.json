@@ -150,7 +150,7 @@
             "value": "[parameters('vNetName')]"
           },
           "vNetSubnetName": {
-            "value": "[parameters('vNetsubnetName')]"
+            "value": "[parameters('vNetSubnetName')]"
           },
           "loadBalancerName": {
             "value": "[parameters('loadBalancerName')]"
