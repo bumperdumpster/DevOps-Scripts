@@ -29,9 +29,6 @@
     "sshPublicKey": {
       "type": "secureString"
     },
-    "encryptionKey": {
-      "type": "secureString"
-    },
     "dbHost": {
       "type": "string"
     },

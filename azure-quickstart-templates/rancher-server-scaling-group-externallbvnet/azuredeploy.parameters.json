@@ -141,10 +141,10 @@
             "value": "[parameters('adminUsername')]"
           },
           "dockerVersion": {
-            "value": "[parameters('dockerVersion)]"
+            "value": "[parameters('dockerVersion')]"
           },
           "rancherVersion": {
-            "value": "[parameters('rancherVersion)]"
+            "value": "[parameters('rancherVersion')]"
           },
           "dbHost": {
             "value": "[parameters('dbHost')]"
