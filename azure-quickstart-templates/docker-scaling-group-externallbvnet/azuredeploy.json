@@ -15,7 +15,10 @@
       "type": "string"
     },
     "instanceCount": {
-        "type": "int"
+      "type": "int"
+    },
+    "diskSize": {
+      "type": "string"
     },
     "adminUsername": {
       "type": "string"
@@ -63,7 +66,7 @@
             "dataDisks": [{
               "lun": "1",
               "createOption": "empty",
-              "diskSizeGB": "128"
+              "diskSizeGB": "[parameters('diskSize')]"
             }],
             "osDisk": {
               "createOption": "FromImage"
