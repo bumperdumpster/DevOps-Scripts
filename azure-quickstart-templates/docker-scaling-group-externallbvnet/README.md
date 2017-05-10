@@ -18,6 +18,7 @@ The Azure Portal requires the following information, please have it ready before
 - V Net Name -Name of the Virtual network already deployed in the same subcription.
 - V NetSubnet Name - Subnet name in the deployed Vnet.
 - Instance Count - The number of VMs, a good default is 1 but you can go up to 10, you don't need to do this now you can start with 1 and scale up to 10 later with the click of button from Azure Portal.
+- Disk Size - Size of Docker Disk
 - Admin Username - Username for the VM instance.
 - SSH Public Key (keyvault) - Public Key for the Admin Username to SSH to the box.
 - Docker Version - Docker Version to insall.
