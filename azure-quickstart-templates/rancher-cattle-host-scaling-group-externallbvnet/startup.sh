@@ -1,7 +1,3 @@
-# Set Docker variables
-
-export DOCKER_VERSION=1.12.6
-
 # Update Ubuntu
 
 apt-get update
@@ -65,7 +61,7 @@ systemctl restart docker
 
 # Add rancher user to docker group
 
-usermod -aG docker rancher
+usermod -aG docker $ADMIN_USERNAME
 
 # Auto join Rancher Agent
 

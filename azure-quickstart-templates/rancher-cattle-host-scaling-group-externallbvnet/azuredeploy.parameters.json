@@ -4,7 +4,7 @@
   "parameters": {
     "vmSku": {
       "type": "string",
-      "defaultValue": "Standard_DS2_v2",
+      "defaultValue": "Standard_DS3_v2",
       "metadata": {
         "description": "Size of Cattle Host VMs in the VM Scale Set."
       }
@@ -14,13 +14,7 @@
       "metadata": {
         "description": "String used as a base for naming resources (9 characters or less). A hash is prepended to this string for some resources, and resource-specific information is appended."
       },
-      "maxLength": 9
-    },
-    "loadBalancerName": {
-      "type": "string",
-      "metadata": {
-        "description": "load balancer name of cattle hosts"
-      }
+      "maxLength": 20
     },
     "vNetName": {
       "type": "string",
@@ -28,22 +22,10 @@
         "description": "cattle hosts vNet name"
       }
     },
-    "vNetsubnetName": {
+    "vNetSubnetName": {
       "type": "string",
       "metadata": {
         "description": "cattle hosts vnet subnet name"
-      }
-    },
-    "bePoolName": {
-      "type": "string",
-      "metadata": {
-        "description": "backend pool name of lb"
-      }
-    },
-    "natPoolName": {
-      "type": "string",
-      "metadata": {
-        "description": "nat pool name of lb"
       }
     },
     "instanceCount": {
@@ -53,6 +35,20 @@
         "description": "Number of Cattle Host VMs. Max 10."
       },
       "maxValue": 10
+    },
+    "diskSize": {
+      "type": "string",
+      "defaultValue": "128",
+      "metadata": {
+        "description": "Size of Docker Disk"
+      }
+    },
+    "dockerVersion": {
+      "type": "string",
+      "defaultValue": "1.12.6",
+      "metadata": {
+        "description": "Docker Version to Install"
+      }
     },
     "adminUsername": {
       "type": "string",
@@ -150,23 +146,20 @@
           "vmssName": {
             "value": "[parameters('vmssName')]"
           },
-          "loadBalancerName": {
-            "value": "[parameters('loadBalancerName')]"
-          },
           "vNetName": {
             "value": "[parameters('vNetName')]"
           },
-          "vNetsubnetName": {
+          "vNetSubnetName": {
             "value": "[parameters('vNetsubnetName')]"
-          },
-          "bePoolName": {
-            "value": "[parameters('bePoolName')]"
-          },
-          "natPoolName": {
-            "value": "[parameters('natPoolName')]"
           },
           "instanceCount": {
             "value": "[parameters('instanceCount')]"
+          },
+          "diskSize": {
+            "value": "[parameters('diskSize')]"
+          },
+          "dockerVersion": {
+            "value": "parameters('dockerVersion')"
           },
           "adminUsername": {
             "value": "[parameters('adminUsername')]"
