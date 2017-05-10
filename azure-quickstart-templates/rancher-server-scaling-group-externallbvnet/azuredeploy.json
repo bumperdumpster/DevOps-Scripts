@@ -139,7 +139,7 @@
                     ]
                   },
                   "protectedSettings" : {
-                    "commandToExecute": "[concat('DOCKER_VERSION=',parameters('dockerVersion'), ' RANCHER_VERSION=',parameters('rancherVersion'),' DB_HOST=',parameters('dbHost'),' DB_PORT=',parameters('dbPort'),' DB_NAME=', parameters('dbName'),' DB_USER=', parameters('dbUser'), ' DB_PASS=', parameters('dbPass'), ' bash startup.sh')]"
+                    "commandToExecute": "[concat('ADMIN_USERNAME=',parameters('adminUsername'),' DOCKER_VERSION=',parameters('dockerVersion'), ' RANCHER_VERSION=',parameters('rancherVersion'),' DB_HOST=',parameters('dbHost'),' DB_PORT=',parameters('dbPort'),' DB_NAME=', parameters('dbName'),' DB_USER=', parameters('dbUser'), ' DB_PASS=', parameters('dbPass'), ' bash startup.sh')]"
                   }
                 }
               }

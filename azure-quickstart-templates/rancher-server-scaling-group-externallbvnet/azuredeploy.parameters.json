@@ -14,7 +14,7 @@
       "metadata": {
         "description": "String used as a base for naming resources (9 characters or less). A hash is prepended to this string for some resources, and resource-specific information is appended."
       },
-      "maxLength": 9
+      "maxLength": 20
     },
     "vNetName": {
       "type": "string",
@@ -30,7 +30,7 @@
     },
     "instanceCount": {
       "type": "int",
-      "defaultValue": 3,
+      "defaultValue": 2,
       "metadata": {
         "description": "Number of Rancher Server VMs."
       },
