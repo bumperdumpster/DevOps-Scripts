@@ -44,7 +44,7 @@ systemctl restart docker
 
 # Add rancher user to docker group
 
-usermod -aG docker rancher
+usermod -aG docker $ADMIN_USERNAME
 
 # Run Rancher HA script
 

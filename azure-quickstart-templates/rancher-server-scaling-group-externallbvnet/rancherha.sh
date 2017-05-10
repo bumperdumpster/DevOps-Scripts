@@ -7,8 +7,8 @@ if [ "$IMAGE" = "" ]; then
     IMAGE=rancher/enterprise:v$RANCHER_VERSION
 fi
 
-echo Creating /var/lib/rancher/bin/rancher-ha-start.sh
-cat > /var/lib/rancher/bin/rancher-ha-start.sh << "EOF"
+echo Creating /rancher-ha-start.sh
+cat > /rancher-ha-start.sh << "EOF"
 #!/bin/sh
 set -e
 
@@ -27,8 +27,8 @@ echo
 echo docker logs -f rancher-ha
 EOF
 
-chmod +x /var/lib/rancher/bin/rancher-ha-start.sh
+chmod +x /rancher-ha-start.sh
 
-echo Running: /var/lib/rancher/bin/rancher-ha-start.sh $IMAGE
-echo To re-run please execute: /var/lib/rancher/bin/rancher-ha-start.sh $IMAGE
-exec /var/lib/rancher/bin/rancher-ha-start.sh $IMAGE
+echo Running: /rancher-ha-start.sh $IMAGE
+echo To re-run please execute: /rancher-ha-start.sh $IMAGE
+exec /rancher-ha-start.sh $IMAGE
