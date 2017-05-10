@@ -22,7 +22,7 @@
         "description": "Virtual Network Name"
       }
     },
-    "vNetsubnetName": {
+    "vNetSubnetName": {
       "type": "string",
       "metadata": {
         "description": "VM CIDR Subnet Name"
@@ -99,8 +99,8 @@
           "vNetName": {
             "value": "[parameters('vNetName')]"
           },
-          "vNetsubnetName": {
-            "value": "[parameters('vNetsubnetName')]"
+          "vNetSubnetName": {
+            "value": "[parameters('vNetSubnetName')]"
           },
           "instanceCount": {
             "value": "[parameters('instanceCount')]"
