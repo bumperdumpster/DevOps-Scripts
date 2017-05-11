@@ -28,6 +28,18 @@
         "description": "Rancher Server VM CIDR subnet name"
       }
     },
+    "loadBalancerName": {
+      "type": "string",
+      "metadata": {
+        "description": "Rancher Server Load Balancer name"
+      }
+    },
+    "bePoolName": {
+      "type": "string",
+      "metadata": {
+        "description": "Rancher Server Backend Pool name"
+      }
+    },
     "instanceCount": {
       "type": "int",
       "defaultValue": 2,
@@ -133,6 +145,12 @@
           },
           "vNetSubnetName": {
             "value": "[parameters('vNetSubnetName')]"
+          },
+          "loadBalancerName": {
+            "value": "[parameters('loadBalancerName')]"
+          },
+          "bePoolName": {
+            "value": "[parameters('bePoolName')]"
           },
           "instanceCount": {
             "value": "[parameters('instanceCount')]"
