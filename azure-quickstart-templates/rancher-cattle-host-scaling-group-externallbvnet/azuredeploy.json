@@ -14,6 +14,12 @@
     "vNetSubnetName": {
       "type": "string"
     },
+    "loadBalancerName": {
+      "type": "string"
+    },
+    "bePoolName": {
+      "type": "string"
+    },
     "instanceCount": {
       "type": "int"
     },
@@ -136,7 +142,12 @@
                       "properties": {
                         "subnet": {
                           "id": "[concat('/subscriptions/', subscription().subscriptionId,'/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/virtualNetworks/', parameters('vNetName'), '/subnets/', parameters('vNetSubnetName'))]"
-                        }
+                        },
+                        "loadBalancerBackendAddressPools": [
+                          {
+                            "id": "[concat('/subscriptions/', subscription().subscriptionId,'/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/loadBalancers/', parameters('loadBalancerName'), '/backendAddressPools/', parameters('bePoolName'))]"
+                          }
+                        ]
                       }
                     }
                   ]
