@@ -67,7 +67,7 @@ while not key_active:
                 response = requests.get(url)
 
 index = command.find('-d')
-output_command = command[:index] + '-e CATTLE_AGENT_IP=`hostname -i` ' + command[index:]
+output_command = command[:index] + '-e CATTLE_AGENT_IP=`ifconfig eth0 | grep "inet addr" | cut -d \':\' -f 2 | cut -d \' \' -f 1` ' + command[index:]
 
 print output_command
 os.system(output_command)
