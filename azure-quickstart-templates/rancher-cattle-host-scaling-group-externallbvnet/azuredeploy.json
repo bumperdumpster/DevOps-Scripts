@@ -8,23 +8,20 @@
     "vmssName": {
       "type": "string"
     },
-    "loadBalancerName": {
-      "type": "string"
-    },
     "vNetName": {
       "type": "string"
     },
-    "vNetsubnetName": {
-      "type": "string"
-    },
-    "bePoolName": {
-      "type": "string"
-    },
-    "natPoolName": {
+    "vNetSubnetName": {
       "type": "string"
     },
     "instanceCount": {
       "type": "int"
+    },
+    "diskSize" : {
+      "type": "string"
+    },
+    "dockerVersion": {
+      "type": "string"
     },
     "adminUsername": {
       "type": "string"
@@ -105,7 +102,7 @@
             "dataDisks": [{
               "lun": "1",
               "createOption": "empty",
-              "diskSizeGB": "128"
+              "diskSizeGB": "[parameters('diskSize')]"
             }],
             "osDisk": {
               "createOption": "FromImage"
@@ -138,18 +135,8 @@
                       "name": "[variables('ipConfigName')]",
                       "properties": {
                         "subnet": {
-                          "id": "[concat('/subscriptions/', subscription().subscriptionId,'/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/virtualNetworks/', parameters('vNetName'), '/subnets/', parameters('vNetsubnetName'))]"
-                        },
-                        "loadBalancerBackendAddressPools": [
-                          {
-                            "id": "[concat('/subscriptions/', subscription().subscriptionId,'/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/loadBalancers/', parameters('loadBalancerName'), '/backendAddressPools/', parameters('bePoolName'))]"
-                          }
-                        ],
-                        "loadBalancerInboundNatPools": [
-                          {
-                            "id": "[concat('/subscriptions/', subscription().subscriptionId,'/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/loadBalancers/', parameters('loadBalancerName'), '/inboundNatPools/', parameters('natPoolName'))]"
-                          }
-                        ]
+                          "id": "[concat('/subscriptions/', subscription().subscriptionId,'/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/virtualNetworks/', parameters('vNetName'), '/subnets/', parameters('vNetSubnetName'))]"
+                        }
                       }
                     }
                   ]
@@ -174,7 +161,7 @@
                     ]
                   },
                   "protectedSettings" : {
-                    "commandToExecute": "[concat('STORAGE_ACCOUNT_NAME=',variables('storageAccountName'),' STORAGE_ACCESS_KEY=',listKeys(variables('storageAccountid'),'2015-05-01-preview').key1,' RANCHER_URL=',parameters('rancherUrl'),' RANCHER_ACCESS_KEY=', parameters('rancherApiAccessKey'), ' RANCHER_SECRET_KEY=', parameters('rancherApiSecretKey'), ' bash startup.sh')]"
+                    "commandToExecute": "[concat('ADMIN_USERNAME=',parameters('adminUsername'),' DOCKER_VERSION=',parameters('dockerVersion'),' STORAGE_ACCOUNT_NAME=',variables('storageAccountName'),' STORAGE_ACCESS_KEY=',listKeys(variables('storageAccountid'),'2015-05-01-preview').key1,' RANCHER_URL=',parameters('rancherUrl'),' RANCHER_ACCESS_KEY=', parameters('rancherApiAccessKey'), ' RANCHER_SECRET_KEY=', parameters('rancherApiSecretKey'), ' bash startup.sh')]"
                   }
                 }
               }
