@@ -28,6 +28,18 @@
         "description": "cattle hosts vnet subnet name"
       }
     },
+    "loadBalancerName": {
+      "type": "string",
+      "metadata": {
+        "description": "Rancher Server Load Balancer name"
+      }
+    },
+    "bePoolName": {
+      "type": "string",
+      "metadata": {
+        "description": "Rancher Server Backend Pool name"
+      }
+    },
     "instanceCount": {
       "type": "int",
       "defaultValue": 2,
@@ -151,6 +163,12 @@
           },
           "vNetSubnetName": {
             "value": "[parameters('vNetsubnetName')]"
+          },
+          "loadBalancerName": {
+            "value": "[parameters('loadBalancerName')]"
+          },
+          "bePoolName": {
+            "value": "[parameters('bePoolName')]"
           },
           "instanceCount": {
             "value": "[parameters('instanceCount')]"
