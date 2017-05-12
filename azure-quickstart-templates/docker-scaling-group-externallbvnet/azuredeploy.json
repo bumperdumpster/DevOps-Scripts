@@ -8,6 +8,9 @@
     "vmssName": {
       "type": "string"
     },
+    "vNetResourceGroup": {
+      "type": "string"
+    },
     "vNetName": {
       "type": "string"
     },
@@ -99,7 +102,7 @@
                       "name": "[variables('ipConfigName')]",
                       "properties": {
                         "subnet": {
-                          "id": "[concat('/subscriptions/', subscription().subscriptionId,'/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/virtualNetworks/', parameters('vNetName'), '/subnets/', parameters('vNetSubnetName'))]"
+                          "id": "[concat('/subscriptions/', subscription().subscriptionId,'/resourceGroups/', parameters('vNetResourceGroup'), '/providers/Microsoft.Network/virtualNetworks/', parameters('vNetName'), '/subnets/', parameters('vNetSubnetName'))]"
                         }
                       }
                     }

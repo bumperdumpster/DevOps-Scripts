@@ -15,6 +15,7 @@ The Azure Portal requires the following information, please have it ready before
 - Location - Azure Location of Resource Group - ex. West US
 - VM Sku - The size of the VMs - default is Standard_DS1_v2, 1 cpu, 4 GB ram, 128GB persistent disk for Docker
 - VMSS Name - Short-name for base naming of resource ex. ctlsupgrp would have resources like ctlsupgrpvnet
+- vNetResourceGroup - Name of resource group where vnet is located
 - V Net Name -Name of the Virtual network already deployed in the same subcription.
 - V NetSubnet Name - Subnet name in the deployed Vnet.
 - Instance Count - The number of VMs, a good default is 1 but you can go up to 10, you don't need to do this now you can start with 1 and scale up to 10 later with the click of button from Azure Portal.
