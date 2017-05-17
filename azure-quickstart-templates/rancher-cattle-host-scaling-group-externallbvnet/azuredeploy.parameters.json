@@ -154,7 +154,7 @@
             "value": "[parameters('diskSize')]"
           },
           "dockerVersion": {
-            "value": "parameters('dockerVersion')"
+            "value": "[parameters('dockerVersion')]"
           },
           "adminUsername": {
             "value": "[parameters('adminUsername')]"
