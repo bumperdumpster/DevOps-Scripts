@@ -35,15 +35,6 @@
     "rancherUrl": {
       "type": "string"
     },
-    "rancherServerResourceGroupName": {
-      "type": "string"
-    },
-    "rancherServerVnetName": {
-      "type": "string"
-    },
-    "rancherServerSubscriptionId": {
-      "type": "secureString"
-    },
     "sshPublicKey": {
       "type": "secureString"
     },
@@ -91,7 +82,7 @@
       "location": "[variables('location')]",
       "apiVersion": "[variables('computeApiVersion')]",
       "dependsOn": [
-        "[concat('Microsoft.Storage/storageAccounts/', variables('StorageAccountName'))]",
+        "[concat('Microsoft.Storage/storageAccounts/', variables('StorageAccountName'))]"
       ],
       "sku": {
         "name": "[parameters('vmSku')]",

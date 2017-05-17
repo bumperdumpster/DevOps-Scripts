@@ -71,23 +71,8 @@
     },
     "rancherUrl": {
       "type": "string",
-      "defaultValue": "https://rancher.steelcase.com",
       "metadata": {
         "description": "URI to Rancher ex. https://rancher.domain.com"
-      }
-    },
-    "rancherServerResourceGroupName": {
-      "type": "string",
-      "defaultValue": "Rancher-RG",
-      "metadata": {
-        "description": "Rancher Server Resource Group Name"
-      }
-    },
-    "rancherServerVnetName": {
-      "type": "string",
-      "defaultValue": "rancherservervnet",
-      "metadata": {
-        "description": "Rancher Server vNet Name"
       }
     },
     "keyVaultSubscriptionId": {
@@ -113,13 +98,6 @@
     "keyVaultSshPublicKeySecretName": {
       "type": "string",
       "defaultValue": "RancherSSHPublicKey",
-      "metadata": {
-        "description": "Secret Name for Rancher API Access Key"
-      }
-    },
-    "keyVaultRancherServerSubscriptionIDSecretName": {
-      "type": "string",
-      "defaultValue": "RancherServerSubscriptionID",
       "metadata": {
         "description": "Secret Name for Rancher API Access Key"
       }
@@ -184,26 +162,12 @@
           "rancherUrl": {
             "value": "[parameters('rancherUrl')]"
           },
-          "rancherServerResourceGroupName": {
-            "value": "[parameters('rancherServerResourceGroupName')]"
-          },
-          "rancherServerVnetName": {
-            "value": "[parameters('rancherServerVnetName')]"
-          },
           "sshPublicKey": {
             "reference": {
               "keyVault": {
                 "id": "[concat('/subscriptions/',parameters('keyVaultSubscriptionId'),'/resourceGroups/',parameters('keyVaultResourceGroupName'),'/providers/Microsoft.KeyVault/vaults/',parameters('keyVaultName'))]"
               },
               "secretName": "[parameters('keyVaultSshPublicKeySecretName')]"
-            }
-          },
-          "rancherServerSubscriptionId": {
-            "reference": {
-              "keyVault": {
-                "id": "[concat('/subscriptions/',parameters('keyVaultSubscriptionId'),'/resourceGroups/',parameters('keyVaultResourceGroupName'),'/providers/Microsoft.KeyVault/vaults/',parameters('keyVaultName'))]"
-              },
-              "secretName": "[parameters('keyVaultRancherServerSubscriptionIDSecretName')]"
             }
           },
           "rancherApiAccessKey": {
