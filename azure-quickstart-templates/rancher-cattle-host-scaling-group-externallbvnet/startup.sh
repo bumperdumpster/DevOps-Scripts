@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Update Ubuntu
 
 apt-get update
