@@ -126,13 +126,12 @@
     },
     "rancherEnvironment": {
       "type": "string",
-      "defaultValue": "Support",
+      "defaultValue": "services",
       "allowedValues": [
-        "Dev",
-        "Production",
-        "Staging",
-        "Support",
-        "Build"
+        "build",
+        "production",
+        "services",
+        "staging"
       ]
     }
   },
