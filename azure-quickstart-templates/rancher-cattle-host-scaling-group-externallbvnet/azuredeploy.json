@@ -163,7 +163,7 @@
                     ]
                   },
                   "protectedSettings" : {
-                    "commandToExecute": "[concat('ADMIN_USERNAME=',parameters('adminUsername'),' DOCKER_VERSION=',parameters('dockerVersion'),' STORAGE_ACCOUNT_NAME=',variables('storageAccountName'),' STORAGE_ACCESS_KEY=',listKeys(variables('storageAccountid'),'2015-05-01-preview').key1,' RANCHER_URL=',parameters('rancherUrl'),' RANCHER_ACCESS_KEY=', parameters('rancherApiAccessKey'), ' RANCHER_SECRET_KEY=', parameters('rancherApiSecretKey'), ' bash startup.sh')]"
+                    "commandToExecute": "[concat('(ADMIN_USERNAME=',parameters('adminUsername'),' DOCKER_VERSION=',parameters('dockerVersion'),' STORAGE_ACCOUNT_NAME=',variables('storageAccountName'),' STORAGE_ACCESS_KEY=',listKeys(variables('storageAccountid'),'2015-05-01-preview').key1,' RANCHER_URL=',parameters('rancherUrl'),' RANCHER_ACCESS_KEY=', parameters('rancherApiAccessKey'), ' RANCHER_SECRET_KEY=', parameters('rancherApiSecretKey'), '; bash startup.sh)')]"
                   }
                 }
               }
