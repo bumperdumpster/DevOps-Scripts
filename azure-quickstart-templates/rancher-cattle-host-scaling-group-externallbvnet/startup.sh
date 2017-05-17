@@ -1,5 +1,16 @@
 #!/bin/bash
 
+while getopts a:k:v:u: option
+do
+ case "${option}"
+ in
+ a) STORAGE_ACCOUNT_NAME=${OPTARG};;
+ k) STORAGE_ACCESS_KEY=${OPTARG};;
+ v) DOCKER_VERSION=${OPTARG};;
+ u) ADMIN_USERNAME=$OPTARG;;
+ esac
+done
+
 # Update Ubuntu
 
 apt-get update
