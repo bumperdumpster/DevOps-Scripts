@@ -47,7 +47,7 @@
   },
   "variables": {
     "location": "[resourceGroup().location]",
-    "rancherEnvVars": "[concat('RANCHER_URL=',parameters('rancherUrl'),' RANCHER_ACCESS_KEY=',parameters('rancherApiAccessKey'),' RANCHER_SECRET_KEY=',parameters('rancherApiSecretKey'))]",
+    "rancherEnvVars": "[concat('RANCHER_URL=\"',parameters('rancherUrl'),'\" RANCHER_ACCESS_KEY=\"',parameters('rancherApiAccessKey'),'\" RANCHER_SECRET_KEY=\"',parameters('rancherApiSecretKey'),'\"')]",
     "storageAccountType": "Standard_LRS",
     "storageAccountName": "[concat(uniquestring(resourceGroup().id),'sa')]",
     "storageAccountid": "[concat(resourceGroup().id,'/providers/','Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
@@ -164,7 +164,7 @@
                     ]
                   },
                   "protectedSettings" : {
-                    "commandToExecute": "[concat(variables('rancherEnvVars'),' bash startup.sh -a ',variables('storageAccountName'),' -k ',listKeys(variables('storageAccountid'),'2015-05-01-preview').key1,' -v ',parameters('dockerVersion'),' -u ',parameters('adminUsername'))]"
+                    "commandToExecute": "[concat(variables('rancherEnvVars'),' bash startup.sh -a \"',variables('storageAccountName'),'\" -k \"',listKeys(variables('storageAccountid'),'2015-05-01-preview').key1,'\" -v \"',parameters('dockerVersion'),'\" -u \"',parameters('adminUsername'),'\"')]"
                   }
                 }
               }
