@@ -49,7 +49,7 @@
     "location": "[resourceGroup().location]",
     "rancherEnvVars": "[concat('RANCHER_URL=\"',parameters('rancherUrl'),'\" RANCHER_ACCESS_KEY=\"',parameters('rancherApiAccessKey'),'\" RANCHER_SECRET_KEY=\"',parameters('rancherApiSecretKey'),'\"')]",
     "storageAccountType": "Standard_LRS",
-    "storageAccountName": "[concat(parameters('vmssName'),'-sa-',uniquestring(resourceGroup().id))]",
+    "storageAccountName": "[concat(parameters('vmssName'),'-sa-')]",
     "storageAccountid": "[concat(resourceGroup().id,'/providers/','Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
     "nicName": "[concat(parameters('vmssName'), 'nic')]",
     "ipConfigName": "[concat(parameters('vmssName'), 'ipconfig')]",
