@@ -107,7 +107,7 @@
       "defaultValue": "services",
       "allowedValues": [
         "build",
-        "production",
+        "prod",
         "services",
         "staging"
       ]
