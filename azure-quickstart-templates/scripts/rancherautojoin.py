@@ -66,8 +66,8 @@ while not key_active:
                 sleep(0.1)
                 response = requests.get(url)
 
-index = command.find('-d')
-output_command = command[:index] + '-e CATTLE_AGENT_IP=`ifconfig eth0 | grep "inet addr" | cut -d \':\' -f 2 | cut -d \' \' -f 1` ' + command[index:]
+index = command.find('--privileged')
+output_command = command[:index] + ' -e CATTLE_AGENT_IP=`ifconfig eth0 | grep "inet addr" | cut -d \':\' -f 2 | cut -d \' \' -f 1` ' + command[index:]
 
 print output_command
 os.system(output_command)
