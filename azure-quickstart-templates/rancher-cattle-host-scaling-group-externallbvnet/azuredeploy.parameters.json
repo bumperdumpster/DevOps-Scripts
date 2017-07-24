@@ -104,8 +104,10 @@
     },
     "rancherEnvironment": {
       "type": "string",
-      "defaultValue": "services",
+      "defaultValue": "devops",
       "allowedValues": [
+        "devops",
+        "dev",
         "build",
         "prod",
         "services",
