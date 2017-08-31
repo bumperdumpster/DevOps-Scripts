@@ -18,7 +18,7 @@ if [ "$IMAGE" = "" ]; then
     exit 1
 fi
 
-docker rm -fv rancher-ha >/dev/null 2>&1 || true
+`docker rm -fv rancher-ha >/dev/null 2>&1 || true`
 ID=`docker run -d --restart=unless-stopped -p 8080:8080 -p 9345:9345 --name rancher-ha $IMAGE --db-host $DB_HOST --db-port $DB_PORT --db-user $DB_USER --db-pass "$DB_PASS" --db-name $DB_NAME --advertise-address $(ifconfig eth0 | grep "inet addr" | cut -d ':' -f 2 | cut -d ' ' -f 1)`
 
 echo Started container rancher-ha $ID
